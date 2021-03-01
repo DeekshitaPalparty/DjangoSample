@@ -1,0 +1,35 @@
+user/login table : 	employee table:		sessions table:
+					
+empid(fk) 		empid (pk)			User_id (fk)
+firstname		department		session_id (pk)
+lastname		salary			jwt token			
+user_id(pk)				issued time			
+password					last accessed time								
+address
+
+CREATE SEQUENCE test_seq;
+CREATE TABLE employee_details( emp_id INT  DEFAULT
+nextval('test_seq') NOT NULL, 
+ department VARCHAR(255) NOT NULL, salary INT ,
+PRIMARY KEY(emp_id) ); 
+
+ALTER SEQUENCE test_seq RESTART WITH 101;
+
+insert into employee_details (department , salary) values ('Finance',20000)	;
+						  
+CREATE TABLE user_details( user_id INT , 
+						  e_id INT, 
+						  first_name VARCHAR(255) , 
+						  last_name VARCHAR(255), 
+						  address VARCHAR(100), 
+						  pwd VARCHAR(25),
+						  PRIMARY KEY(user_id), 
+						  CONSTRAINT fk_user FOREIGN KEY(e_id) REFERENCES employee_details(emp_id) );
+CREATE TABLE session_details( session_id INT , 
+						  u_id INT, 
+						  token_issued VARCHAR(255) , 
+						  issued_time timestamp, 
+						  last_accessed_time timestamp, 
+						  
+						  PRIMARY KEY(session_id), 
+						  CONSTRAINT fk_session FOREIGN KEY(u_id) REFERENCES user_details(user_id) );
