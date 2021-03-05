@@ -22,13 +22,13 @@ logger = logging.getLogger(__name__)
 def EMPLOYEE_LOGIN_VALIDATE(request):
     login=json.loads(request.body)
     logger.info(login)
-    if( (login['username'] == '') or (login['password']== '') ):
+    if( (login['data']['username'] == '') or (login['data']['password']== '') ):
         return JsonResponse("enter valid credentials", safe =False)
     else:
-        user = lf.Validate_Login(login['username'],login['password'])
+        user = lf.Validate_Login(login['data']['username'],login['data']['password'])
         res = Lg.LoginResponse()
         if(user.lastname != ''):
-            token = ut.token_generate({"username":login['username']})
+            token = ut.token_generate({"username":login['data']['username']})
             res.status = '1'
             res.token = token['token']
             res.firstname = user.firstname
@@ -41,7 +41,7 @@ def EMPLOYEE_LOGIN_VALIDATE(request):
             logger.info("token inside login validate")
             logger.info(res.token)
             # return JsonResponse(ser.serialize('json', res), safe=False)
-            lf.session_entries(login['username'],res.token,now,now)
+            lf.session_entries(login['data']['username'],res.token,now,now)
             return JsonResponse(json.dumps(res.__dict__), safe =False)
         else:
             res.status ='0'

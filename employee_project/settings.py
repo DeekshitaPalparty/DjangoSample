@@ -174,7 +174,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-CORS_ORIGIN_WHITELIST = 'http://localhost:3000',
+CORS_ORIGIN_WHITELIST = 'http://localhost:8080',
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
